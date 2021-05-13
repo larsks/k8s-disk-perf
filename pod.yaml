@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fio-benchmark
+spec:
+  containers:
+    - image: docker.io/alpinelinux/darkhttpd
+      name: web
+      volumeMounts:
+        - mountPath: /var/www/localhost/htdocs
+          name: results
+      ports:
+        - name: http
+          containerPort: 8080
+  volumes:
+    - name: results
+      persistentVolumeClaim:
+        claimName: fio-results

@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fio-benchmark
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - image: docker.io/larsks/benchmark
+          name: fio
+          command:
+            - sh
+            - /scripts/run-benchmark.sh
+          workingDir: /results
+          volumeMounts:
+            - mountPath: /target/cephfs
+              name: target-cephfs
+            - mountPath: /target/rbd
+              name: target-rbd
+            - mountPath: /target/nfs
+              name: target-nfs
+            - mountPath: /scripts
+              name: fio-scripts
+            - mountPath: /config
+              name: fio-config
+            - mountPath: /results
+              name: results
+      volumes:
+        - name: target-cephfs
+          persistentVolumeClaim:
+            claimName: fio-claim-cephfs
+        - name: target-rbd
+          persistentVolumeClaim:
+            claimName: fio-claim-rbd
+        - name: target-nfs
+          persistentVolumeClaim:
+            claimName: fio-claim-nfs
+        - name: fio-scripts
+          configMap:
+            name: fio-scripts
+        - name: fio-config
+          configMap:
+            name: fio-config
+        - name: results
+          persistentVolumeClaim:
+            claimName: fio-results
+  backoffLimit: 4

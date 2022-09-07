@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 : ${FIO_TARGET_PATH:=/target}
 : ${FIO_CONFIG_PATH:=/config}
 : ${FIO_SIZE:=4G}
@@ -35,22 +33,22 @@ run_fio() {
 	fio --output output.json --output-format json job.fio
 }
 
-echo "$(date) starting" > state.txt
+echo "$(date) starting" | tee state.txt
 for path in $FIO_TARGET_PATH/*; do
 	target=${path##*/}
 	mkdir -p $target
 
-	echo "$(date) running sysbench on $target" >> state.txt
+	echo "$(date) running sysbench on $target" | tee -a state.txt
 	(
 	cd $target
 	run_sysbench > sysbench.out 2> sysbench.err
-)
+	)
 
-	echo "$(date) running fio on $target" >> state.txt
+	echo "$(date) running fio on $target" | tee -a state.txt
 	(
 	cd $target
 	run_fio > fio.out 2> fio.err
 	)
 done
 
-echo "$(date) finished" >> state.txt
+echo "$(date) finished" | tee -a state.txt

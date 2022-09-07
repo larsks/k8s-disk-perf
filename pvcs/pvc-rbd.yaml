@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: fio-claim-rbd
 spec:
-  storageClassName: ocs-storagecluster-ceph-rbd
+  storageClassName: ocs-external-storagecluster-ceph-rbd
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 25Gi
+      storage: 20Gi

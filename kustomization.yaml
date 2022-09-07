@@ -7,10 +7,7 @@ commonLabels:
   app: fio-benchmark
 
 resources:
-  - pvc-cephfs.yaml
-  - pvc-rbd.yaml
-  - pvc-nfs.yaml
-  - pvc-results.yaml
+  - pvcs
   - job.yaml
   - pod.yaml
   - service.yaml

@@ -7,7 +7,7 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-        - image: docker.io/larsks/benchmark
+        - image: docker.io/larsks/benchmark:latest
           name: fio
           command:
             - sh

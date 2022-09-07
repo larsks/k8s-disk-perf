@@ -1,14 +1,18 @@
 #!/bin/bash
 
+set -x
+
 : ${FIO_TARGET_PATH:=/target}
 : ${FIO_CONFIG_PATH:=/config}
 : ${FIO_SIZE:=4G}
 : ${FIO_TEMPLATE:=template.fio}
 
-: ${SYSBENCH_SIZE:=10G}
+: ${SYSBENCH_SIZE:=4G}
 
 umask 0002
 chmod -R a+rX .
+
+set -ue
 
 run_sysbench() {
 	sysbench_args=(
